@@ -2,10 +2,11 @@ const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('test2.db');
 
 let schema = `
-create table company(
+create table device(
   id integer primary key,
+  company_id integer not null,
   name text,
-  company_id integer not null
+  type text
 );
 `
 

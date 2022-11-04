@@ -2,15 +2,42 @@ const express = require("express");
 const app = express();
 
 const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('test.db');
+const db = new sqlite3.Database('test2.db');
 
 app.set('view engine', 'ejs');
 app.use("/public", express.static(__dirname + "/public"));
+app.use(express.json()) 
+app.use(express.urlencoded({ extended: true }));
+
 
 app.get("/", (req, res) => {
-  const message = "Hello world";
-  res.render('show', {mes:message});
+  const message = "格会社ごとの人気のゲーミングデバイス一覧です";
+res.render('show', {mes:message});
 });
+
+app.get("/com", (req, res) => {
+  db.serialize( () => {
+        db.all("select id, name from company;", (error, row) => {
+            if( error ) {
+                res.render('show', {mes:"エラーです"});
+            }
+            res.render('com', {data:row});
+        })
+    })
+});
+
+app.get("/com/:id", (req, res) => { 
+  db.serialize( () => { 
+    console.log(req.params)
+     db.all("select name from company where id=" + req.params.id + ";", (error, row) => {  if( error ) { 
+ res.render('show', {mes:"エラーです"}); 
+ } 
+console.log(row);                                                
+ res.render('dev', {data:row}); 
+ }) 
+ }) 
+}) 
+
 
 app.get("/db", (req, res) => {
     db.serialize( () => {
@@ -22,6 +49,20 @@ app.get("/db", (req, res) => {
         })
     })
 })
+
+app.get("/company", (req, res) => {
+    //console.log(req.query.pop);    // ①
+    db.serialize( () => {
+        db.all("select id, name from company;", (error, data) => {
+            if( error ) {
+                res.render('show', {mes:"エラーです"});
+            }
+            //console.log(data);    // ③
+            res.render('test', {data:data});
+        })
+    })
+})
+
 app.get("/top", (req, res) => {
     //console.log(req.query.pop);    // ①
     let desc = "";

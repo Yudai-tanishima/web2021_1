@@ -29,15 +29,30 @@ app.get("/com", (req, res) => {
 app.get("/com/:id", (req, res) => { 
   db.serialize( () => { 
     console.log(req.params)
-     db.all("select name from company where id=" + req.params.id + ";", (error, row) => {  if( error ) { 
- res.render('show', {mes:"エラーです"}); 
- } 
-console.log(row);                                                
- res.render('dev', {data:row}); 
+     db.all("select device.name, device.type from company inner join device on company.company_id=device.company_id where company.id=" + req.params.id + ";", (error, row) =>
+       {  if( error ) { 
+       res.render('show', {mes:"エラーです"}); 
+     } 
+console.log(row);                                                 res.render('dev', {data:row}); 
  }) 
  }) 
 }) 
 
+app.post("/insert", (req, res) => { 
+ let sql = ` 
+insert into device ("type", "name", "company_id" ) values ("` + req.body.type + `", "` + req.body.name + `", ` + req.body.company_id + `); ` 
+ console.log(sql); 
+ db.serialize( () => { 
+ db.run( sql, (error, row) => { 
+ console.log(error); 
+ if(error) { 
+ res.render('show', {mes:"エラーです"}); 
+ } 
+ res.redirect('/select');
+    }); 
+ }); 
+ console.log(req.body);
+ }); 
 
 app.get("/db", (req, res) => {
     db.serialize( () => {

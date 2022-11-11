@@ -2,7 +2,7 @@ const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('test2.db');
 
 let sql = `
-insert into device ("name", "company_id", "type") values ("ロジクールG Pro X Superlightワイヤレスゲーミングマウス", 1, "マウス");
+insert into company ("name", "company_id" ) values ("Zowie-BenQ", 8 );
 `
 
 db.serialize( () => {

@@ -1,8 +1,21 @@
-test
-<a href="/public/test.html">test.htmlへのリンク</a><br>
-  <a href="/public/input01.html">人口の多い順（少ない順）に都道府県を表示する（app6.jsを起動してからクリックしてください）</a>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Show message</title>
+</head>
+<body>
+  <h2>会社名rrrr</h2>
+  <table id="data">
+      <% for( let row of data ) { %>
+        <tr>
+          <td><%= row.type %></td>
+            <td><%= row.name %></td>
+        </tr>
+      <% } %>
+  </table>
 
-
-
-  res.render('show', {mes:message});
-})
+  
+   <button onclick="location.href='/com'">戻る</button>
+  <button onclick="location.href='/public/insert.html'">追加</button>
+</body>
+</html>

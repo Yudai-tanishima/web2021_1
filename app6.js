@@ -26,6 +26,19 @@ app.get("/com", (req, res) => {
     })
 });
 
+app.get("/dev", (req, res) => { 
+  db.serialize( () => { 
+    console.log(req.params)
+     db.all("select device.name, device.type from company inner join device on company.company_id=device.company_id where company.id=" + req.params.id + ";", (error, row) =>
+       {  if( error ) { 
+       res.render('show', {mes:"エラーです"}); 
+     } 
+console.log(row);                                                 res.render('dev', {data:row}); 
+ }) 
+ }) 
+}) 
+
+
 app.get("/com/:id", (req, res) => { 
   db.serialize( () => { 
     console.log(req.params)
@@ -48,7 +61,7 @@ insert into device ("type", "name", "company_id" ) values ("` + req.body.type + 
  if(error) { 
  res.render('show', {mes:"エラーです"}); 
  } 
- res.redirect('/select');
+ res.redirect('/dev');
     }); 
  }); 
  console.log(req.body);

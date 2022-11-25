@@ -5,8 +5,13 @@
   <title>Show message</title>
 </head>
 <body>
+  <form action="/dev" method="post">
+    <input type="text" name="type">
+    <input type="submit" value="登録">
+  </form>
+
   <h2>会社名rrrr</h2>
-  <table>
+  <table id="data">
       <% for( let row of data ) { %>
         <tr>
           <td><%= row.type %></td>

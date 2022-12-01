@@ -19,3 +19,5 @@
   <button onclick="location.href='/public/insert.html'">追加</button>
 </body>
 </html>
+        `select device.name, device.type from company inner join device on company.company_id=device.company_id where company.id="` + req.params.id + `" AND device.type ="マウス";
+ `

@@ -8,6 +8,7 @@ app.set('view engine', 'ejs');
 app.use("/public", express.static(__dirname + "/public"));
 app.use(express.json()) 
 app.use(express.urlencoded({ extended: true }));
+let a;
 
 
 app.get("/", (req, res) => {
@@ -29,15 +30,15 @@ app.get("/com", (req, res) => {
 app.get("/dev", (req, res) => { 
   db.serialize( () => { 
     console.log(req.params)
-     db.all("select device.name, device.type from company inner join device on company.company_id=device.company_id where company.id=" + req.params.id + ";", (error, row) =>
+     db.all("select device.name, device.type from company inner join device on company.company_id=device.company_id where company.id=" + req.params.bangou + ";", (error, row) =>
        {  if( error ) { 
        res.render('show', {mes:"エラーです"}); 
      } 
 console.log(row);                                                 res.render('dev', {data:row}); 
+        console.log(a);
  }) 
  }) 
 }) 
-
 
 app.get("/com/:id", (req, res) => { 
   db.serialize( () => { 
@@ -46,10 +47,13 @@ app.get("/com/:id", (req, res) => {
        {  if( error ) { 
        res.render('show', {mes:"エラーです"}); 
      } 
+        let a = req.params.id;
 console.log(row);                                                 res.render('dev', {data:row}); 
+        a = req.params.id
  }) 
  }) 
 }) 
+
 
 app.post("/insert", (req, res) => { 
  let sql = ` 

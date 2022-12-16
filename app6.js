@@ -27,28 +27,33 @@ app.get("/com", (req, res) => {
     })
 });
 
-app.get("/dev", (req, res) => { 
+
+app.get("/search", (req, res) => { 
   db.serialize( () => { 
-    console.log(req.params)
-     db.all("select device.name, device.type from company inner join device on company.company_id=device.company_id where company.id=" + req.params.bangou + ";", (error, row) =>
+    console.log(req.query.type)
+     db.all("select company.id, device.name, device.type from company inner join device on company.company_id=device.company_id where company.id=" + req.query.id + " AND device.type ='" + req.query.type 
+  + "';", (error, row) =>
        {  if( error ) { 
        res.render('show', {mes:"エラーです"}); 
-     } 
-console.log(row);                                                 res.render('dev', {data:row}); 
-        console.log(a);
+     }
+      //console.log(row);                                                 
+        res.render('dev', {data:row}); 
  }) 
  }) 
 }) 
 
+
+
 app.get("/com/:id", (req, res) => { 
   db.serialize( () => { 
-    console.log(req.params)
-     db.all("select device.name, device.type from company inner join device on company.company_id=device.company_id where company.id=" + req.params.id + ";", (error, row) =>
+    //console.log(req.params)
+     db.all("select company.id, device.name, device.type from company inner join device on company.company_id=device.company_id where company.id=" + req.params.id + ";", (error, row) =>
        {  if( error ) { 
        res.render('show', {mes:"エラーです"}); 
      } 
         let a = req.params.id;
-console.log(row);                                                 res.render('dev', {data:row}); 
+//console.log(row);                                                 
+        res.render('dev', {data:row}); 
         a = req.params.id
  }) 
  }) 

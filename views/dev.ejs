@@ -5,9 +5,9 @@
   <title>Show message</title>
 </head>
 <body>
-  <form action="/dev" method="post">
+  <form action="/search">
     <input type="text" name="type">
-    <input type="number" name="bangou">
+   <input type="hidden" name="id" value="<%= data[0].id %>">
     <input type="submit" value="検索">
   </form>
 

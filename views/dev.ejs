@@ -5,13 +5,14 @@
   <title>Show message</title>
 </head>
 <body>
+  <p>デバイスの種類（例：マウス　キーボードなど）：<br>
   <form action="/search">
     <input type="text" name="type">
-   <input type="hidden" name="id" value="<%= data[0].id %>">
+    <input type="hidden" name="id" value="<%= data[0].id %>">
     <input type="submit" value="検索">
   </form>
 
-  <h2>会社名rrrr</h2>
+  <h2>選んだ会社のデバイス一覧です</h2>
   <table id="data">
       <% for( let row of data ) { %>
         <tr>

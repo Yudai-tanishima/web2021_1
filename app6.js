@@ -27,6 +27,17 @@ app.get("/com", (req, res) => {
     })
 });
 
+app.get("/devall", (req, res) => {
+  db.serialize( () => {
+        db.all("select id, type from device where company_id = 8 ;", (error, row) => {
+          if( error ) {
+                res.render('show', {mes:"エラーです"});
+            }
+            res.render('devall', {data:row});
+        })
+    })
+});
+
 
 app.get("/search", (req, res) => { 
   db.serialize( () => { 
@@ -41,8 +52,6 @@ app.get("/search", (req, res) => {
  }) 
  }) 
 }) 
-
-
 
 app.get("/com/:id", (req, res) => { 
   db.serialize( () => { 
@@ -59,63 +68,37 @@ app.get("/com/:id", (req, res) => {
  }) 
 }) 
 
+app.get("/devall/:type", (req, res) => { 
+  db.serialize( () => { 
+    //console.log(req.params)
+     db.all("select company.id, device.name, device.type from company inner join device on company.company_id=device.company_id where device.type='" + req.params.type + "';", (error, row) =>
+       {  if( error ) { 
+       res.render('show', {mes:"エラーです"}); 
+     } 
+        let a = req.params.id;
+//console.log(row);                                                 
+        res.render('type', {data:row}); 
+        a = req.params.id
+ }) 
+ }) 
+}) 
 
 app.post("/insert", (req, res) => { 
  let sql = ` 
 insert into device ("type", "name", "company_id" ) values ("` + req.body.type + `", "` + req.body.name + `", ` + req.body.company_id + `); ` 
- console.log(sql); 
- db.serialize( () => { 
- db.run( sql, (error, row) => { 
- console.log(error); 
- if(error) { 
- res.render('show', {mes:"エラーです"}); 
- } 
- res.redirect('/dev');
+   console.log(sql); 
+  db.serialize( () => { 
+    db.run( sql, (error, row) => { 
+      console.log(error); 
+      if(error) { 
+        res.render('show', {mes:"エラーです"}); 
+      } 
+      res.render('show',　{mes:成功});
     }); 
+  }); 
+  console.log(req.body);
  }); 
- console.log(req.body);
- }); 
 
-app.get("/db", (req, res) => {
-    db.serialize( () => {
-        db.all("select id, 都道府県, 人口 from example;", (error, row) => {
-            if( error ) {
-                res.render('show', {mes:"エラーです"});
-            }
-            res.render('select', {data:row});
-        })
-    })
-})
-
-app.get("/company", (req, res) => {
-    //console.log(req.query.pop);    // ①
-    db.serialize( () => {
-        db.all("select id, name from company;", (error, data) => {
-            if( error ) {
-                res.render('show', {mes:"エラーです"});
-            }
-            //console.log(data);    // ③
-            res.render('test', {data:data});
-        })
-    })
-})
-
-app.get("/top", (req, res) => {
-    //console.log(req.query.pop);    // ①
-    let desc = "";
-    if( req.query.desc ) desc = " desc";
-    let sql = "select id, 都道府県, 人口 from example order by 人口" + desc + " limit " + req.query.pop + ";";
-    //console.log(sql);    // ②
-    db.serialize( () => {
-        db.all(sql, (error, data) => {
-            if( error ) {
-                res.render('show', {mes:"エラーです"});
-            }
-            //console.log(data);    // ③
-            res.render('select', {data:data});
-        })
-    })
-})
 app.use(function(req, res, next) {
   res.status(404).send('ページが見つかりません');
 });

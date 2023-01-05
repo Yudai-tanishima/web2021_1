@@ -2,7 +2,7 @@ const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('test2.db');
 
 let sql = `
-insert into device ("name", "type", "company_id") values ("Logicool G ロジクール G PRO X ゲーミングキーボード", "キーボード", 1);
+insert into device ("name", "type", "company_id") values ("HyperX Cloud II ゲーミングヘッドセット", "ヘッドセット", 7);
 　`
 
 db.serialize( () => {

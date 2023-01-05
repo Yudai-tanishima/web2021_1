@@ -5,13 +5,13 @@
   <title>Show message</title>
 </head>
 <body>
-  <h2>会社名</h2>
+  <h2>種類名</h2>
   <table>
       <% for( let row of data ) { %>
         <tr>
           <td>
-          <a href="/com/<%= row.id %>"><%= row.id %></a>
-            <td><%= row.name %></td>
+          <a href="/devall/<%= row.type %>"><%= row.type %></a>
+            
         </tr>
       <% } %>
   </table>
